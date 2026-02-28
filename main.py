@@ -15,7 +15,7 @@ app = FastAPI(title="HRMS Lite API", version="1.0.0")
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite default port
+    allow_origins=["http://localhost:5173","https://hrms-lite-frontend-prateek.netlify.app"],  # Vite default port
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
