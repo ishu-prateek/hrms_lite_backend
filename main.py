@@ -15,7 +15,7 @@ app = FastAPI(title="HRMS Lite API", version="1.0.0")
 # Add CORS middleware
 origins = [
     "http://localhost:5173",
-    "https://hrms-lite-frontend-prateek.netlify.app",
+    "https://hrms-lite-frontend-prateek.netlify.app"
 ]
 app.add_middleware(
     CORSMiddleware,
