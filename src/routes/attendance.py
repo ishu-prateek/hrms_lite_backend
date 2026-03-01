@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/", response_model=list[AttendanceSchema])
+@router.get("/api/", response_model=list[AttendanceSchema])
 def get_attendance(
     db: Session = Depends(get_db),
     start_date: date = Query(None, description="Start date for filtering"),
@@ -29,7 +29,7 @@ def get_attendance(
     attendance = query.all()
     return attendance
 
-@router.get("/summary", response_model=list[dict])
+@router.get("/api/summary", response_model=list[dict])
 def get_attendance_summary(db: Session = Depends(get_db)):
     summary = db.query(
         Employee.id,
@@ -51,7 +51,7 @@ def get_attendance_summary(db: Session = Depends(get_db)):
         for emp in summary
     ]
 
-@router.get("/stats")
+@router.get("/api/stats")
 def get_attendance_stats(db: Session = Depends(get_db)):
     total_employees = db.query(Employee).count()
     total_attendance = db.query(Attendance).count()
@@ -65,7 +65,7 @@ def get_attendance_stats(db: Session = Depends(get_db)):
         'total_absent': total_absent
     }
 
-@router.post("/", response_model=AttendanceSchema)
+@router.post("/api/", response_model=AttendanceSchema)
 def create_attendance(attendance: AttendanceCreate, db: Session = Depends(get_db)):
     # Check if employee exists
     if not db.query(Employee).filter(Employee.id == attendance.employee_id).first():
@@ -83,7 +83,7 @@ def create_attendance(attendance: AttendanceCreate, db: Session = Depends(get_db
     db.refresh(db_attendance)
     return db_attendance
 
-@router.get("/employee/{employee_id}", response_model=list[AttendanceSchema])
+@router.get("/api/employee/{employee_id}", response_model=list[AttendanceSchema])
 def get_employee_attendance(employee_id: int, db: Session = Depends(get_db)):
     if not db.query(Employee).filter(Employee.id == employee_id).first():
         raise HTTPException(status_code=404, detail="Employee not found")
